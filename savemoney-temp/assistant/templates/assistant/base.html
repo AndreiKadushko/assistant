@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <link href="{% static "css/assistant.css" %}" rel="stylesheet">
+</head>
+<body>
+{% block mainmenu %}
+<a href="{% url 'assistant:main' %}"></a>
+<ul>
+{% for m in menu %}
+         {% if not forloop.last %}
+                            <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+         {% else %}
+                            <li class="last"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+         {% endif %}
+{% endfor %}
+</ul>
+{% endblock mainmenu %}
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

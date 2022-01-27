@@ -1,0 +1,36 @@
+{% extends "assistant/base.html" %}
+{% block content %}
+    <h2>{{ title }}</h2>
+<form action="{% url 'assistant:main' %}" method="post">
+    {% csrf_token %}
+<div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label> {{ f }}</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+
+    <h3>Тренд валюты по скользящему среднему</h3>
+    <table class="table-main">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>{{ cur_abbrev }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for course, date in trend_list %}
+        <tr>
+            <td>{{date}}</td>
+            <td>{{course}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="form-button" type="submit">Результат</button>
+
+    <p class="coef-label">Коэффициент роста</p>
+    <p class="coef"> {{ increase_coef }} </p>
+</form>
+{% endblock %}

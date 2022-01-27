@@ -1,0 +1,56 @@
+{% extends "assistant/base.html" %}
+{% block content %}
+
+    <h1>{{ title }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Доллар США USD</th>
+            <th>Евро EUR</th>
+            <th>Российский рубль RUB</th>
+            <th>Гривна UAH</th>
+            <th>Иена JPY</th>
+            <th>Китайский юань CNY</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for course in page_obj %}
+        <tr>
+            <td>{{course.date_stamp}}</td>
+            <td>{{course.usd}}</td>
+            <td>{{course.eur}}</td>
+            <td>{{course.rub}}</td>
+            <td>{{course.uah}}</td>
+            <td>{{course.jpy}}</td>
+            <td>{{course.cny}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+        {% if page_obj.has_previous %}
+        <li class="page-num">
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+        {% endif %}
+        {% for p in page_obj.paginator.page_range %}
+                    {% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+                    {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-num">
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
